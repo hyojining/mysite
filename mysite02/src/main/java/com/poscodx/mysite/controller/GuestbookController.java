@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.poscodx.mysite.dao.GuestbookDao;
+import com.poscodx.mysite.dao.UserDao;
 import com.poscodx.mysite.vo.GuestbookVo;
+import com.poscodx.mysite.vo.UserVo;
 
 public class GuestbookController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -37,8 +39,7 @@ public class GuestbookController extends HttpServlet {
 		}else if("deleteform".equals(action)) {
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/guestbook/deleteform.jsp");
 			rd.forward(request, response);
-		}
-		else if("delete".equals(action)) {			
+		}else if("delete".equals(action)) {			
 			int no = Integer.parseInt(request.getParameter("no"));
 			String password = request.getParameter("password");
 
