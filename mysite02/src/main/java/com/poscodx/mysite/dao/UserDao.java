@@ -3,11 +3,62 @@ package com.poscodx.mysite.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import com.poscodx.mysite.vo.UserVo;
 
 public class UserDao {
+
+	public UserVo findByEmailAndPassword(String email, String password) {
+		UserVo userVo = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			
+			// 3. Statement 객체 생성
+			String sql = "select no, name from user where email=? and password=password(?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			// 4. binding
+			pstmt.setString(1, email);
+			pstmt.setString(2, password);
+			// 5. SQL 실행
+			rs = pstmt.executeQuery();
+			
+			// 6. 결과 처리
+			if(rs.next()) {
+				Long no = rs.getLong(1);
+				String name = rs.getString(2);
+				
+				userVo = new UserVo();
+				userVo.setNo(no);
+				userVo.setName(name);
+				
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				// 7. 자원정리
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return userVo;
+	}
 	
 	public void insert(UserVo vo) {
 		Connection conn = null;
@@ -66,4 +117,5 @@ public class UserDao {
 					
 		return conn;
 	}
+
 }

@@ -10,6 +10,8 @@ public class UserActionFactory implements ActionFactory {
 	public Action getAction(String actionName) {
 		Action action = null;
 		
+		System.out.println(actionName);
+		
 		if("joinform".equals(actionName)) {
 			action = new JoinFormAction();
 		} else if("join".equals(actionName)) {
@@ -18,7 +20,9 @@ public class UserActionFactory implements ActionFactory {
 			action = new JoinSuccessAction();
 		} else if("loginform".equals(actionName)) {
 			action = new LoginFormAction();
-		}else{
+		} else if("login".equals(actionName)) {
+			action = new LoginAction();
+		} else{
 			action = new MainAction();
 		}
 		
