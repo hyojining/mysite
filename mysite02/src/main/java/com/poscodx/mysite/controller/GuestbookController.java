@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.poscodx.mysite.dao.GuestbookDao;
-import com.poscodx.mysite.dao.UserDao;
 import com.poscodx.mysite.vo.GuestbookVo;
-import com.poscodx.mysite.vo.UserVo;
 
 public class GuestbookController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
