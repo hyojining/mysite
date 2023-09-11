@@ -22,7 +22,11 @@ public class UserActionFactory implements ActionFactory {
 			action = new LoginAction();
 		} else if("logout".equals(actionName)) {
 				action = new LogoutAction();
-		} else{
+		} else if("updateform".equals(actionName)) {
+			action = new UpdateformAction();
+		} else if("update".equals(actionName)) {
+			action = new UpdateAction();
+		} else {
 			action = new MainAction();
 		}
 		
