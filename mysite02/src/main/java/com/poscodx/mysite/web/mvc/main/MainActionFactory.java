@@ -7,7 +7,7 @@ public class MainActionFactory implements ActionFactory {
 
 	@Override
 	public Action getAction(String actionName) {
-		return new MainAction();
+		return new MainAction(); // 컨트롤러(액션)를 생성하고 반환
 	}
 
 }

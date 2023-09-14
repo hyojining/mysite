@@ -21,7 +21,7 @@ public class UpdateformAction implements Action {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
 		if(authUser == null) {
-			response.sendRedirect(request.getContextPath() + "/user?a=loginform");
+			response.sendRedirect(request.getContextPath());
 			return;
 		}
 		
