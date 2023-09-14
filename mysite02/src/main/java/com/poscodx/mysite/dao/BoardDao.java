@@ -12,6 +12,42 @@ import com.poscodx.mysite.vo.BoardVo;
 
 public class BoardDao {
 
+	public void insert(BoardVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+	        
+			String sql = "insert into board values(null, ?, ?, ?, now(), ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContents());
+			pstmt.setLong(3, vo.getHit());
+			pstmt.setLong(4, vo.getG_no());
+			pstmt.setLong(5, vo.getO_no());
+			pstmt.setLong(6, vo.getDepth());
+			pstmt.setLong(7, vo.getUser_no());
+			
+			pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			System.out.println("Error:" + e);
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public BoardVo findByNo(long no) {
 		
 		Connection conn = null;
@@ -142,71 +178,6 @@ public class BoardDao {
 		
 	}
 
-	public void insert(BoardVo vo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			conn = getConnection();
-	        
-			String sql = "insert into board values(null, ?, ?, ?, now(), ?, ?, ?, ?)";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContents());
-			pstmt.setLong(3, vo.getHit());
-			pstmt.setLong(4, vo.getG_no());
-			pstmt.setLong(5, vo.getO_no());
-			pstmt.setLong(6, vo.getDepth());
-			pstmt.setLong(7, vo.getUser_no());
-			
-			pstmt.executeUpdate();
-			
-			
-		} catch (SQLException e) {
-			System.out.println("Error:" + e);
-		} finally {
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public void deleteByNo(Long no) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			conn = getConnection();
-			
-			String sql = "delete from board where no = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setLong(1, no);
-			
-			pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			System.out.println("Error:" + e);
-		} finally {
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
 	public void updateHit(Long no) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -237,17 +208,17 @@ public class BoardDao {
 		}		
 	}
 	
-    public void updateONo(BoardVo vo) {
+	public void updateONo(Long g_no, Long o_no) {
         Connection conn = null;
         PreparedStatement pstmt = null;
         
         try {
             conn = getConnection();
             
-            String sql = "UPDATE board SET o_no = o_no + 1 WHERE g_no = ? AND o_no >= ?";
+            String sql = "UPDATE board SET o_no = o_no + 1 WHERE g_no = ? AND o_no > ?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setLong(1, vo.getG_no());
-            pstmt.setLong(2, vo.getO_no());
+            pstmt.setLong(1, g_no);
+            pstmt.setLong(2, o_no);
             
             pstmt.executeUpdate();
             
@@ -265,21 +236,35 @@ public class BoardDao {
 				e.printStackTrace();
 			}
         }
-    }
+	}
 	
-	private Connection getConnection() throws SQLException {
+	public void deleteByNo(Long no) {
 		Connection conn = null;
-
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			
-			String url = "jdbc:mariadb://192.168.0.176:3307/webdb?charset=utf8";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		}
+		PreparedStatement pstmt = null;
 		
-		return conn;
+		try {
+			conn = getConnection();
+			
+			String sql = "delete from board where no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, no);
+			
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("Error:" + e);
+		} finally {
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public Long findMaxGroupNo() {
@@ -350,33 +335,18 @@ public class BoardDao {
 
 	}
 
-	public void updateONo(Long g_no, Long o_no) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        
-        try {
-            conn = getConnection();
-            
-            String sql = "UPDATE board SET o_no = o_no + 1 WHERE g_no = ? AND o_no > ?";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setLong(1, g_no);
-            pstmt.setLong(2, o_no);
-            
-            pstmt.executeUpdate();
-            
-        } catch (SQLException e) {
-            System.out.println("Error: " + e);
-        } finally {
-        	try {
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-        }
+	private Connection getConnection() throws SQLException {
+		Connection conn = null;
+
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			
+			String url = "jdbc:mariadb://192.168.0.176:3307/webdb?charset=utf8";
+			conn = DriverManager.getConnection(url, "webdb", "webdb");
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패:" + e);
+		}
+		
+		return conn;
 	}
 }

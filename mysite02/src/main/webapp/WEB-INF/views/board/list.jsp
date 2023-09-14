@@ -52,15 +52,8 @@
 				</table>
 				<!-- pager 추가 -->
 				<div class="pager">
-					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
-					</ul>
+				
+				
 				</div>					
 				<!-- pager 추가 -->				
 				<c:if test = "${not empty authUser}">
