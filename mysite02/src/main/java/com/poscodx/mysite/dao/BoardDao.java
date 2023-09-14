@@ -22,7 +22,7 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 			
-			String sql = " select no, title, contents, hit, user_no" + 
+			String sql = " select no, title, contents, hit, date_format(reg_date, '%Y/%m/%d %H:%i:%s'), g_no, o_no, depth, user_no" + 
 						 "   from board" + 
 						 "	where no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -34,13 +34,21 @@ public class BoardDao {
 				String title = rs.getString(2);
 				String contents = rs.getString(3);
 				Long hit = rs.getLong(4);
-				Long user_no = rs.getLong(5);
+				String reg_date = rs.getString(5);
+				Long g_no = rs.getLong(6);
+				Long o_no = rs.getLong(7);
+				Long depth = rs.getLong(8);
+				Long user_no = rs.getLong(9);
 				
 				vo = new BoardVo();
 				vo.setNo(board_no);
 				vo.setTitle(title);
 				vo.setContents(contents);
 				vo.setHit(hit);
+				vo.setReg_date(reg_date);
+				vo.setG_no(g_no);
+				vo.setO_no(o_no);
+				vo.setDepth(depth);
 				vo.setUser_no(user_no);
 				
 			}
@@ -340,5 +348,35 @@ public class BoardDao {
 			}
         }
 
+	}
+
+	public void updateONo(Long g_no, Long o_no) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        
+        try {
+            conn = getConnection();
+            
+            String sql = "UPDATE board SET o_no = o_no + 1 WHERE g_no = ? AND o_no > ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, g_no);
+            pstmt.setLong(2, o_no);
+            
+            pstmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            System.out.println("Error: " + e);
+        } finally {
+        	try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        }
 	}
 }

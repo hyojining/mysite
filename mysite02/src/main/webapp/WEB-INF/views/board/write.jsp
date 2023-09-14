@@ -17,7 +17,9 @@
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 					<input type = "hidden" name = "a" value="write">
 					<input type="hidden" name="user_no" value="${authUser.no}">
-					<input type="hidden" name="g_no" value="${g_no}">
+					<c:if test="${not empty vo}">
+					<input type="hidden" name="no" value="${vo.no}">
+					</c:if>
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>

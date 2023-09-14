@@ -18,7 +18,7 @@ public class ModifyAction implements Action {
 		
 		String title = request.getParameter("title");
 		String contents = request.getParameter("content");
-		
+
 		new BoardDao().modify(no, title, contents);
 		
 		response.sendRedirect(request.getContextPath() + "/board");

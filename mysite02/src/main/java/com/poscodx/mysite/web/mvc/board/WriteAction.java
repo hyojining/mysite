@@ -26,18 +26,31 @@ public class WriteAction implements Action {
 		String title = request.getParameter("title");
 		String contents = request.getParameter("content");
 		
+		Long g_no = 0L;
+		Long o_no = 0L;
+		Long depth = 0L;
+		
+		if(request.getParameter("no") != null) {
+			BoardVo parentVo = new BoardDao().findByNo(Long.parseLong(request.getParameter("no")));
+			g_no = parentVo.getG_no();
+			o_no = parentVo.getO_no() + 1;
+			depth = parentVo.getDepth()+1;
+			
+			new BoardDao().updateONo(g_no, parentVo.getO_no());
+		
+		}else {
+			g_no = new BoardDao().findMaxGroupNo() + 1;
+			o_no = 1L;
+			depth = 1L;
+		}
+		
 		BoardVo vo = new BoardVo();
 		vo.setTitle(title);
 		vo.setContents(contents);
 		vo.setHit(0L);
-		
-        Long newGNo = new BoardDao().findMaxGroupNo() + 1;
-        vo.setG_no(newGNo);
-        
-        vo.setO_no(1L);
-        vo.setDepth(1L);
-        
-		
+		vo.setG_no(g_no);
+		vo.setO_no(o_no);
+		vo.setDepth(depth);
 		vo.setUser_no(authUser.getNo());
 		
 		new BoardDao().insert(vo);

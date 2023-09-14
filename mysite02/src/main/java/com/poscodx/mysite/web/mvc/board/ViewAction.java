@@ -25,5 +25,4 @@ public class ViewAction implements Action {
 		
 		WebUtil.forward("board/view", request, response);
 	}
-
 }

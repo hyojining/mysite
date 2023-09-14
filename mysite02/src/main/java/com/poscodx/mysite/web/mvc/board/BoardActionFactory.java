@@ -9,16 +9,10 @@ public class BoardActionFactory implements ActionFactory {
 	public Action getAction(String actionName) {
 		Action action = null;
 		
-		if("modify".equals(actionName)) {
-			action = new ModifyAction();
-		} else if("writeform".equals(actionName)) {
+		if("writeform".equals(actionName)) {
 			action = new WriteFormAction(); 
 		} else if("write".equals(actionName)) {
 			action = new WriteAction();
-		} else if("replyform".equals(actionName)) {
-			action = new ReplyFormAction(); 
-		} else if("reply".equals(actionName)) {
-			action = new ReplyAction();
 		} else if("view".equals(actionName)) {
 			action = new ViewAction();
 		} else if("modifyform".equals(actionName)) {
