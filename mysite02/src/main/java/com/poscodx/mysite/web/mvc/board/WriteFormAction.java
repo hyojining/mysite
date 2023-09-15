@@ -21,6 +21,7 @@ public class WriteFormAction implements Action {
         if (noParam != null && !noParam.isEmpty()) {
             Long no = Long.parseLong(noParam);
 			BoardVo vo = new BoardDao().findByNo(no);
+			
 			request.setAttribute("vo", vo);
         }
 		

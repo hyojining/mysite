@@ -17,6 +17,7 @@ public class DeleteAction implements Action {
 		Long no = Long.parseLong(sno);
 		
 		new BoardDao().deleteByNo(no);
+		
 		response.sendRedirect(request.getContextPath() + "/board");
 	}
 

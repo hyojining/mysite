@@ -18,6 +18,7 @@ public class WriteAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		
 		if(authUser == null) {
 			response.sendRedirect(request.getContextPath());
 			return;

@@ -16,7 +16,6 @@
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 					<input type = "hidden" name = "a" value="write">
-					<input type="hidden" name="user_no" value="${authUser.no}">
 					<c:if test="${not empty vo}">
 					<input type="hidden" name="no" value="${vo.no}">
 					</c:if>

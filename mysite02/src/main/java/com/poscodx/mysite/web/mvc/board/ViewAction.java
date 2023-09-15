@@ -20,6 +20,7 @@ public class ViewAction implements Action {
 		Long no = Long.parseLong(noParam);
 		
 		new BoardDao().updateHit(no);
+		
 		BoardVo vo = new BoardDao().findByNo(no);
 		request.setAttribute("vo", vo);
 		

@@ -19,6 +19,7 @@ public class ModifyFormAction implements Action {
 		Long no = Long.parseLong(noParam);
 		
 		BoardVo vo = new BoardDao().findByNo(no);
+		
 		request.setAttribute("vo", vo);
 		
 		WebUtil.forward("board/modify", request, response);
