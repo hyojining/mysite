@@ -31,6 +31,7 @@ public class WriteAction implements Action {
 		Long o_no = 0L;
 		Long depth = 0L;
 		
+		// 답글
 		if(request.getParameter("no") != null) {
 			BoardVo parentVo = new BoardDao().findByNo(Long.parseLong(request.getParameter("no")));
 			g_no = parentVo.getG_no();
@@ -39,7 +40,7 @@ public class WriteAction implements Action {
 			
 			new BoardDao().updateONo(g_no, parentVo.getO_no());
 		
-		}else {
+		}else { // 게시글
 			g_no = new BoardDao().findMaxGroupNo() + 1;
 			o_no = 1L;
 			depth = 1L;

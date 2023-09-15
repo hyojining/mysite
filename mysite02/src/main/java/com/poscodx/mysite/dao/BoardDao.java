@@ -58,9 +58,9 @@ public class BoardDao {
 		try {
 			conn = getConnection();
 			
-			String sql = " select no, title, contents, hit, date_format(reg_date, '%Y/%m/%d %H:%i:%s'), g_no, o_no, depth, user_no" + 
-						 "   from board" + 
-						 "	where no = ?";
+			String sql = " select a.no, a.title, a.contents, a.hit, date_format(a.reg_date, '%Y/%m/%d %H:%i:%s'), a.g_no, a.o_no, a.depth, a.user_no, b.name" + 
+					 	 "   from board a, user b" + 
+						 "	where a.no = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, no);
@@ -76,6 +76,7 @@ public class BoardDao {
 				Long o_no = rs.getLong(7);
 				Long depth = rs.getLong(8);
 				Long user_no = rs.getLong(9);
+				String user_name = rs.getString(10);
 				
 				vo = new BoardVo();
 				vo.setNo(board_no);
@@ -87,6 +88,7 @@ public class BoardDao {
 				vo.setO_no(o_no);
 				vo.setDepth(depth);
 				vo.setUser_no(user_no);
+				vo.setUser_name(user_name);
 				
 			}
 		} catch (SQLException e) {
@@ -341,6 +343,112 @@ public class BoardDao {
 			}
         }
 
+	}
+	
+	public int countList() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		
+		try {
+			conn = getConnection();
+			
+			String sql = " select count(*)" +
+						 "   from board";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				count = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Error:" + e);
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return count;
+	}
+
+	public List<BoardVo> findPageList(int currentPage, int postSize) {
+		List<BoardVo> result = new ArrayList<>();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			
+			String sql = "    select a.no, a.title, a.contents, a.hit, date_format(a.reg_date, '%Y/%m/%d %H:%i:%s'), a.g_no, a.o_no, a.depth, a.user_no, b.name" + 
+						 "      from board a, user b" + 
+						 "	   where a.user_no = b.no" + 
+						 "  order by g_no desc, o_no asc" +
+						 "     limit ?, ?";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, (currentPage -1) * postSize);
+            pstmt.setInt(2, postSize);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Long no = rs.getLong(1);
+				String title = rs.getString(2);
+				String contents = rs.getString(3);
+				Long hit = rs.getLong(4);
+				String reg_date = rs.getString(5);
+				Long g_no = rs.getLong(6);
+				Long o_no = rs.getLong(7);
+				Long depth = rs.getLong(8);
+				Long user_no = rs.getLong(9);
+				String user_name = rs.getString(10);
+				
+				BoardVo vo = new BoardVo();
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setContents(contents);
+				vo.setHit(hit);
+				vo.setReg_date(reg_date);
+				vo.setG_no(g_no);
+				vo.setO_no(o_no);
+				vo.setDepth(depth);
+				vo.setUser_no(user_no);
+				vo.setUser_name(user_name);
+				
+				result.add(vo);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Error:" + e);
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}		
+		return result;
 	}
 
 	private Connection getConnection() throws SQLException {

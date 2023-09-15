@@ -17,7 +17,7 @@
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 					<input type = "hidden" name = "a" value="write">
 					<c:if test="${not empty vo}">
-					<input type="hidden" name="no" value="${vo.no}">
+						<input type="hidden" name="no" value="${vo.no}">
 					</c:if>
 					<table class="tbl-ex">
 						<tr>
