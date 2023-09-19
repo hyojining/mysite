@@ -53,7 +53,7 @@ public class UserController {
 		}
 		
 		/* 인증 처리 */
-		session.setAttribute("authUser", authUser);
+		session.setAttribute("authUser", authUser); // main header
 		return "redirect:/";
 	}
 	
