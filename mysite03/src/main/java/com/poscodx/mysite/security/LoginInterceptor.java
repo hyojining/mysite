@@ -19,17 +19,19 @@ public class LoginInterceptor implements HandlerInterceptor {
 			throws Exception {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		
+
 		UserVo authUser = userService.getUser(email, password);
 		
 		if(authUser == null) {
 			request.setAttribute("email", email);
 			request
-			.getRequestDispatcher("/WEB-INF/views/user/login.jsp")
-			.forward(request, response);
+				.getRequestDispatcher("/WEB-INF/views/user/login.jsp")
+				.forward(request, response);
 			
 			return false;
 		}
+		
+		System.out.println("auth success: " + authUser);
 		
 		HttpSession session = request.getSession(true);
 		session.setAttribute("authUser", authUser);

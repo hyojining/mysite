@@ -1,14 +1,13 @@
 package com.poscodx.mysite.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.poscodx.mysite.security.Auth;
+import com.poscodx.mysite.security.AuthUser;
 import com.poscodx.mysite.service.UserService;
 import com.poscodx.mysite.vo.UserVo;
 
@@ -17,59 +16,46 @@ import com.poscodx.mysite.vo.UserVo;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
-	@RequestMapping(value = "/join", method=RequestMethod.GET)
+
+	@RequestMapping(value="/join", method=RequestMethod.GET)
 	public String join() {
 		return "user/join";
 	}
-	
-	@RequestMapping(value = "/join", method=RequestMethod.POST)
-	public String join(UserVo vo) {
-		userService.join(vo);
+
+	@RequestMapping(value="/join", method=RequestMethod.POST)
+	public String join(UserVo userVo) {
+		userService.join(userVo);
 		return "redirect:/user/joinsuccess";
 	}
-	
-	@RequestMapping(value = "/joinsuccess", method=RequestMethod.GET)
+
+	@RequestMapping(value="/joinsuccess", method=RequestMethod.GET)
 	public String joinsuccess() {
 		return "user/joinsuccess";
 	}
-	
-	@RequestMapping(value = "/login", method=RequestMethod.GET)
+
+	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login() {
 		return "user/login";
 	}
 	
+	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String update(HttpSession session, Model model) {
-		// Access Control(접근 제어)
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/user/login";
-		}
-		////////////////////////////////////////////////////////////
-		
+	public String update(@AuthUser UserVo authUser, Model model) {		
 		UserVo userVo = userService.getUser(authUser.getNo());
 		model.addAttribute("userVo", userVo);
 		return "user/update";
 	}
 	
+	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String update(HttpSession session, UserVo userVo) {
-		// Access Control(접근 제어)
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/user/login";
-		}
-		////////////////////////////////////////////////////////////
-		
+	public String update(@AuthUser UserVo authUser, UserVo userVo) {
 		userVo.setNo(authUser.getNo());
 		userService.update(userVo);
 		
-		authUser.setName(userVo.getName()); // header에 보여지는 사용자 이름
-		
+		authUser.setName(userVo.getName());
 		return "redirect:/user/update";
 	}
-	
+
 //	@ExceptionHandler(Exception.class)
 //	public String handlerException() {
 //		return "error/exception";
