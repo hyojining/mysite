@@ -9,9 +9,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.poscodx.mysite.vo.UserVo;
 
-public class AuthInterceptor implements HandlerInterceptor {
+public class AuthInterceptor implements HandlerInterceptor { // 사용자의 인증 및 권한 여부 처리
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) // 요청이 컨트롤러에 도달하기 전에 실행되는 메서드
 			throws Exception {
 		// 1. handler 종류 확인
 		if(!(handler instanceof HandlerMethod)) {
@@ -27,7 +27,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		
 		// 3-2. Handler Method의 @Auth가 없는 경우, Type(Class)의 @Auth 가져오기
 		if(auth == null) {
-			//handlerMethod.
+			auth = handlerMethod.getMethod().getDeclaringClass().getAnnotation(Auth.class);
 		}
 		
 		// 4. @Auth 가 없는 경우
@@ -47,10 +47,14 @@ public class AuthInterceptor implements HandlerInterceptor {
 		// 6. 권한(Authorization) 체크를 위해서 @Auth의 Role 가져오기("USER", "ADMIN")
 		String role = auth.Role();
 		
-		String authUserRole = authUser.getRole();
-
+		if("USER".equals(role)) {
+			return true;
+		}
 		
-		
+		if(!"ADMIN".equals(authUser.getRole())) {
+			response.sendRedirect(request.getContextPath());
+			return false;
+		}
 		
 		// 7. 인증 확인!!!
 		return true;
