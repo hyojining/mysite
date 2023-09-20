@@ -32,7 +32,7 @@ public class BoardController {
 		Map<String, Object> map = boardService.getContentsList(page, keyword);
 
 		// model.addAllAttributes(map);
-		model.addAttribute("map", map);
+		model.addAttribute("map", map); // map을 넘겨서 jsp에서 key값으로 접근
 		model.addAttribute("keyword", keyword);
 		
 		return "board/index";
@@ -79,7 +79,7 @@ public class BoardController {
 	@RequestMapping(value="/modify", method=RequestMethod.POST)	
 	public String modify(
 		HttpSession session, 
-		@ModelAttribute BoardVo boardVo,
+		BoardVo boardVo,
 		@RequestParam(value="p", required=true, defaultValue="1") Integer page,
 		@RequestParam(value="kwd", required=true, defaultValue="") String keyword) {		
 		// Access Control(접근 제어)
