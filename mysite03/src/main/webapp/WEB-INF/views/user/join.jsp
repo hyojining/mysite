@@ -16,12 +16,11 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="user">
-
 				<form:form
-					modelAttribute="userVo"
-					id="join-form" 
-					name="joinForm" 
-					method="post" 
+					modelAttribute="userVo" 
+					id="join-form"
+					name="joinForm"
+					method="post"
 					action="${pageContext.request.contextPath }/user/join">
 					
 					<label class="block-label" for="name">이름</label>
@@ -29,39 +28,31 @@
 					<p style="padding:3px 0 5px 0; text-align: left; color: #f00">
 						<spring:hasBindErrors name="userVo">
 							<c:if test="${errors.hasFieldErrors('name') }">
-							<!-- 
+								<!--
 								${errors.getFieldError("name").defaultMessage }
-							 -->
-							 <spring:message code='${errors.getFieldError("name").codes[0] }' />
-							</c:if>
-						</spring:hasBindErrors>
-					</p>
-
-					<label class="block-label" for="email">이메일</label>
-					<input id="email" name="email" type="text" value="">
-					<input type="button" value="id 중복체크">
-					<p style="padding:3px 0 5px 0; text-align: left; color: #f00">
-						<spring:hasBindErrors name="userVo">
-							<c:if test="${errors.hasFieldErrors('email') }">
-								${errors.getFieldError("email").defaultMessage }
-							</c:if>
+								-->
+								<spring:message code='${errors.getFieldError("name").codes[0]}' />
+							</c:if> 
 						</spring:hasBindErrors>
 					</p>
 					
-					<label class="block-label"><spring:message code="user.join.label.password" /></label>
-					<input name="password" type="password" value="">
+					<label class="block-label" for="email">이메일</label>
+					<form:input path="email" />
+					<input type="button" value="중복체크">
 					<p style="padding:3px 0 5px 0; text-align: left; color: #f00">
-						<spring:hasBindErrors name="userVo">
-							<c:if test="${errors.hasFieldErrors('password') }">
-								${errors.getFieldError("password").defaultMessage }
-							</c:if>
-						</spring:hasBindErrors>
+						<form:errors path="email" />
+					</p>
+					
+					<label class="block-label"><spring:message code="user.join.label.password" /></label>
+					<form:password path="password" />
+					<p style="padding:3px 0 5px 0; text-align: left; color: #f00">
+						<form:errors path="password" />
 					</p>
 					
 					<fieldset>
 						<legend>성별</legend>
-						<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
-						<label>남</label> <input type="radio" name="gender" value="male">
+						<form:radiobutton path="gender" value="female" label="여" checked="checked" />
+						<form:radiobutton path="gender" value="male" label="남" checked="checked" />
 					</fieldset>
 					
 					<fieldset>
