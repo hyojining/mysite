@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<% pageContext.setAttribute("newline", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +30,8 @@
 						<input type="file" name="file">
 
 						<label class="block-label">사이트 설명</label>
-						<textarea name="description">${siteVo.description }</textarea>
+						
+						<textarea name="description">${fn:replace(siteVo.description, newline, "<br>") }</textarea>
 						
 						<input type="submit" value="변경" />
 					</form>

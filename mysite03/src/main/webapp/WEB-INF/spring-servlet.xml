@@ -12,12 +12,7 @@
 	<!-- auto proxy -->
 	<aop:aspectj-autoproxy />
 
-   <!-- 
-      Validator
-      Default Servlet Handler
-      Message Converter
-      Argument Resolver
-    -->
+	<!-- Validator Default Servlet Handler Message Converter Argument Resolver -->
 
 	<!-- Validator Default Servlet Handler Message Converter Argument Resolve -->
 	<mvc:annotation-driven>
@@ -73,7 +68,8 @@
 	</bean>
 
 	<!-- mvc url-resource mapping -->
-	<mvc:resources mapping="/assets/upload-images/**" location="file:/mysite-uploads/" />
+	<mvc:resources mapping="/assets/upload-images/**"
+		location="file:/mysite-uploads/" />
 
 
 	<!-- View Resolver -->

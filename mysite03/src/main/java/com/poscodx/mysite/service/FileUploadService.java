@@ -30,7 +30,7 @@ public class FileUploadService {
 			}
 			
 			String originFilename = file.getOriginalFilename();
-			String extName = originFilename.substring(originFilename.lastIndexOf(".")); // 확장자는 뒤에서 찾기
+			String extName = originFilename.substring(originFilename.lastIndexOf(".") + 1); // 확장자는 뒤에서 찾기
 			String saveFilename = generateSaveFilename(extName);
 			Long fileSize = file.getSize();
 			
@@ -63,7 +63,7 @@ public class FileUploadService {
 		filename += calendar.get(Calendar.MINUTE);
 		filename += calendar.get(Calendar.SECOND);
 		filename += calendar.get(Calendar.MILLISECOND);
-		filename += ("." + extName);;
+		filename += ("." + extName);
 
 		return filename;
 	}
