@@ -15,9 +15,9 @@ public class MainController {
 	
 	@RequestMapping("/")
 	public String index(Model model) {
-		SiteVo vo = siteService.getSite();
+		SiteVo vo = siteService.getSite(); // 사이트 정보 가져오기
 		
-		model.addAttribute("siteVo", vo);
+		model.addAttribute("siteVo", vo); // 사이트 정보를 모델에 추가하여 뷰에 전달
 		return "main/index";
 	}
 	

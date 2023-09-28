@@ -56,8 +56,8 @@ public class AuthInterceptor implements HandlerInterceptor { // 사용자의 인
 			return true;
 		}
 		
-		if(!"ADMIN".equals(authUser.getRole())) {
-			response.sendRedirect(request.getContextPath());
+		if(!"ADMIN".equals(authUser.getRole())) { // 사용자 역할이 ADMIN일 때, 현재 사용자가 ADMIN이 아닌 경우
+			response.sendRedirect(request.getContextPath()); // 메인 화면으로
 			return false;
 		}
 		
