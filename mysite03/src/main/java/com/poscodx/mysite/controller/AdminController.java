@@ -21,10 +21,10 @@ import com.poscodx.mysite.vo.SiteVo;
 public class AdminController {
 	
 	@Autowired
-	private ApplicationContext applicationContext;
+	private ApplicationContext applicationContext; // 스프링 빈을 관리하고 어플리케이션의 설정 정보를 제공
 	
 	@Autowired
-	private ServletContext servletContext;
+	private ServletContext servletContext; // 웹 전반에 걸쳐 공유되는 데이터를 저장하고 액세스하는 데 사용
 	
 	@Autowired
 	private SiteService siteService;
@@ -46,16 +46,16 @@ public class AdminController {
 			vo.setProfile(profile);
 		}
 		
-		SiteVo site = applicationContext.getBean(SiteVo.class);
+		SiteVo site = applicationContext.getBean(SiteVo.class); // SiteVo 클래스의 새 인스턴스 생성
 		
 		siteService.updateSite(vo); // 사이트 정보 업데이트
-		servletContext.setAttribute("siteVo", vo);
+		servletContext.setAttribute("siteVo", vo); // 웹 전반에 걸쳐 공유되는 siteVo 속성 업데이트
 		
 //		site.setTitle(vo.getTitle());
 //		site.setWelcome(vo.getWelcome());
 //		site.setProfile(vo.getProfile());
 //		site.setDescription(vo.getDescription());
-		BeanUtils.copyProperties(vo, site); // 한 번에 copy
+		BeanUtils.copyProperties(vo, site); // vo 객체의 속성값을 site 객체로 한 번에 copy
 		
 		return "redirect:/admin";
 	}
