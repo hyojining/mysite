@@ -19,7 +19,7 @@ public class DBConfig {
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-		dataSource.setUrl("jdbc:mariadb://192.168.64.9:3307/webdb?charset=utf8");
+		dataSource.setUrl(env.getProperty("jdbc.url"));
 		dataSource.setUsername(env.getProperty("jdbc.username"));
 		dataSource.setPassword(env.getProperty("jdbc.password"));
 		dataSource.setInitialSize(env.getProperty("jdbc.initialSize", Integer.class));
