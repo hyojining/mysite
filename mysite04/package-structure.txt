@@ -35,7 +35,5 @@
  |     |     |     |    |-- /messages
  |     |     |     |    |     |-- messages_ko.properties 
  
- com.poscodx.mysite.config.web.messages
- 
  
   
