@@ -14,7 +14,7 @@
  |     |     |     |    |-- MessageSourceConfig.java
  |     |     |     |    |-- FileuploadConfig.java
  |     |     |-- /initializer
- |     |     |     |-- MySiteWebApplicationinitializer
+ |     |     |     |-- MySiteWebApplicationInitializer
  |     |     |-- /controller 
  |     |     |-- /service
  |     |     |-- /repository
