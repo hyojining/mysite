@@ -18,17 +18,14 @@ import com.poscodx.mysite.security.LogoutInterceptor;
 
 @SpringBootConfiguration
 public class WebConfig implements WebMvcConfigurer {
-	//
+	
 	// Application ConextEvent Listener
-	//
 	@Bean
 	public ApplicationContextEventListener applicationContextEventListener() {
 		return new ApplicationContextEventListener();
 	}
 	
-	//
 	// Argument Resolver
-	//
 	@Bean
 	public HandlerMethodArgumentResolver handlerMethodArgumentResolver() {
 		return new AuthUserHandlerMethodArgumentResolver();
